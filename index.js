@@ -1,6 +1,7 @@
 const dom = document;
-let TODOS = JSON.parse(window.localStorage.getItem("todoList"));
 const taskBox = dom.querySelector(".task-box");
+let TODOS = JSON.parse(window.localStorage.getItem("todoList"));
+
 
 const updateTodoStatus = (selectedTodo) => {
   const todoName = selectedTodo.parentElement.lastElementChild;
@@ -35,7 +36,6 @@ const showTodos = () => {
   if (TODOS) {
     TODOS.forEach(({ nameTodo, status }, id) => {
       let isCompleted = status === "completed" ? "checked" : "";
-      // console.log(id, nameTodo, status);
       li += `
                 <li class="task">
                 <label for="${id}">
@@ -46,7 +46,7 @@ const showTodos = () => {
                     <i class="fa-solid fa-ellipsis"></i>
                     <ul class="task-menu">
                     <li><i class="fa-solid fa-pencil"></i> Edit</li>
-                    <li><i class="fa-solid fa-trash"></i> Delete</li>
+                    <li onclick="deleteTodo(${id})"><i class="fa-solid fa-trash"></i> Delete</li>
                     </ul>
                 </div>
                 </li>
@@ -59,19 +59,27 @@ const showTodos = () => {
 
 showTodos();
 
+
+const deleteTodo = (todoId) => {
+  TODOS.splice(todoId, 1);
+  localStorage.setItem("todoList", JSON.stringify(TODOS));
+  showTodos();
+}
+
+
 const keyUpHandler = (event) => {
-  const taskName = dom.querySelector(".task-name-input input").value.trim();
-  // console.log(taskName);
+  const input = dom.querySelector(".task-name-input input")
+  const taskName = input.value.trim();
 
   if (event.key === "Enter" && taskName) {
-    let TODOS = JSON.parse(window.localStorage.getItem("todoList"));
     if (!TODOS) {
       TODOS = [];
     }
     let taskInfo = { nameTodo: taskName, status: "pending" };
     TODOS.push(taskInfo);
     localStorage.setItem("todoList", JSON.stringify(TODOS));
-    console.log(TODOS);
+    input.value = "";
+    showTodos();
   }
 };
 
