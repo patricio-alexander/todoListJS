@@ -62,6 +62,8 @@ li {
   padding: 18px 25px;
   border-bottom: 1px solid #ccc;
 }
+
+
 .filters span {
   margin: 0 8px;
   font-size: 17px;
@@ -122,6 +124,10 @@ li {
   display: flex;
 }
 
+.task label p.checked {
+	text-decoration: line-through;
+}
+
 .task label input {
   /* margin-top: 7px; */
   margin-right: 12px;
@@ -146,7 +152,7 @@ li {
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
 }
 
-.settings:hover .task-menu {
+.settings .task-menu.show {
 	transform: scale(1);
 }
 
