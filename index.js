@@ -1,7 +1,10 @@
 const dom = document;
+const input = dom.querySelector(".task-name-input input");
 const taskBox = dom.querySelector(".task-box");
 let TODOS = JSON.parse(window.localStorage.getItem("todoList"));
 
+let todoIdToEdited;
+let isEdited = false;
 
 const updateTodoStatus = (selectedTodo) => {
   const todoName = selectedTodo.parentElement.lastElementChild;
@@ -45,7 +48,7 @@ const showTodos = () => {
                 <div class="settings">
                     <i class="fa-solid fa-ellipsis"></i>
                     <ul class="task-menu">
-                    <li><i class="fa-solid fa-pencil"></i> Edit</li>
+                    <li onclick="editTodo(${id}, '${nameTodo}')"><i class="fa-solid fa-pencil"></i> Edit</li>
                     <li onclick="deleteTodo(${id})"><i class="fa-solid fa-trash"></i> Delete</li>
                     </ul>
                 </div>
@@ -66,17 +69,29 @@ const deleteTodo = (todoId) => {
   showTodos();
 }
 
+const editTodo = (todoId, nameTodo) => {
+  isEdited = true;
+  todoIdToEdited = todoId;
+  input.value = nameTodo;
+
+
+}
 
 const keyUpHandler = (event) => {
-  const input = dom.querySelector(".task-name-input input")
+  
   const taskName = input.value.trim();
 
   if (event.key === "Enter" && taskName) {
-    if (!TODOS) {
-      TODOS = [];
+    if (!isEdited) {
+      if (!TODOS) {
+        TODOS = [];
+      }
+      let taskInfo = { nameTodo: taskName, status: "pending" };
+      TODOS.push(taskInfo);
+    } else {
+      isEdited = false;
+      TODOS[todoIdToEdited].nameTodo = taskName;
     }
-    let taskInfo = { nameTodo: taskName, status: "pending" };
-    TODOS.push(taskInfo);
     localStorage.setItem("todoList", JSON.stringify(TODOS));
     input.value = "";
     showTodos();
