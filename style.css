@@ -9,7 +9,7 @@ body {
   width: 100%;
   height: 100vh;
   overflow: hidden;
-  background: linear-gradient(135deg, #4ab1ff, #2d5cfe);
+  background: linear-gradient(135deg, #4ab1ff, #b5fe2d);
 }
 
 .wrapper {
@@ -43,8 +43,7 @@ body {
   border: 1px solid #999;
 }
 
-.task-name-input input:focus,
-.task-name-input input.active {
+.task-name-input input:focus{
   padding-left: 52px;
   border: 2px solid #3c87ff;
 }
@@ -80,17 +79,16 @@ li {
   outline: none;
   color: #fff;
   cursor: pointer;
-  font-size: 13px;
+  font-size: 15px;
   padding: 7px 13px;
   border-radius: 4px;
   letter-spacing: 0.3px;
-  pointer-events: none;
   background: linear-gradient(135deg, #1798fb 0%, #2d5cfe 100%);
 }
 
 
 
-/* .task-box::-webkit-scrollbar {
+.task-box::-webkit-scrollbar {
   width: 5px;
 }
 .task-box::-webkit-scrollbar-track {
@@ -100,7 +98,7 @@ li {
 .task-box::-webkit-scrollbar-thumb {
   background: #e6e6e6;
   border-radius: 25px;
-} */
+}
 
 .task-box {
   margin: 20px 25px;
