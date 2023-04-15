@@ -77,10 +77,17 @@ const editTodo = (todoId, nameTodo) => {
   input.value = nameTodo;
 };
 
+const removeAllTodos = () => {
+  TODOS.splice(0, TODOS.length);
+  localStorage.setItem("todoList", JSON.stringify(TODOS));
+  showTodos({filter: "all"});
+}
+
 const clickHandler = ({ target }) => {
   if (target.matches(".todo-selected")) updateTodoStatus(target);
   if (target.matches(".settings i")) showMenu(target);
   if (target.matches(".filters span")) filterTodos(target);
+  if (target.matches(".clear-btn")) removeAllTodos();
 };
 
 const keyUpHandler = (event) => {
