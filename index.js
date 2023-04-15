@@ -28,57 +28,62 @@ const showMenu = (selectedTodo) => {
   };
 };
 
-const clickHandler = ({ target }) => {
-  if (target.matches(".todo-selected")) updateTodoStatus(target);
-  if (target.matches(".settings i")) showMenu(target);
-};
-
-const showTodos = () => {
+const showTodos = ({ filter }) => {
   let li = "";
-
   if (TODOS) {
     TODOS.forEach(({ nameTodo, status }, id) => {
       let isCompleted = status === "completed" ? "checked" : "";
-      li += `
-                <li class="task">
-                <label for="${id}">
-                    <input class="todo-selected" ${isCompleted} type="checkbox" id="${id}" />
-                    <p class="${isCompleted}">${nameTodo}</p>
-                </label>
-                <div class="settings">
-                    <i class="fa-solid fa-ellipsis"></i>
-                    <ul class="task-menu">
-                    <li onclick="editTodo(${id}, '${nameTodo}')"><i class="fa-solid fa-pencil"></i> Edit</li>
-                    <li onclick="deleteTodo(${id})"><i class="fa-solid fa-trash"></i> Delete</li>
-                    </ul>
-                </div>
-                </li>
-            
-            `;
+      // console.log(filter);
+      if (filter === status || filter === "all") {
+        li += `
+                  <li class="task">
+                  <label for="${id}">
+                      <input class="todo-selected" ${isCompleted} type="checkbox" id="${id}" />
+                      <p class="${isCompleted}">${nameTodo}</p>
+                  </label>
+                  <div class="settings">
+                      <i class="fa-solid fa-ellipsis"></i>
+                      <ul class="task-menu">
+                      <li onclick="editTodo(${id}, '${nameTodo}')"><i class="fa-solid fa-pencil"></i> Edit</li>
+                      <li onclick="deleteTodo(${id})"><i class="fa-solid fa-trash"></i> Delete</li>
+                      </ul>
+                  </div>
+                  </li>
+              
+              `;
+      }
     });
   }
-  taskBox.innerHTML = li;
+  taskBox.innerHTML = li || `<span>You don't have any task here</span>`;
 };
 
-showTodos();
+showTodos({ filter: "all" });
 
+const filterTodos = (btn) => {
+  document.querySelector(".filters span.active").classList.remove("active");
+  btn.classList.add("active");
+  showTodos({ filter: btn.id });
+};
 
 const deleteTodo = (todoId) => {
   TODOS.splice(todoId, 1);
   localStorage.setItem("todoList", JSON.stringify(TODOS));
-  showTodos();
-}
+  showTodos({filter: "all"});
+};
 
 const editTodo = (todoId, nameTodo) => {
   isEdited = true;
   todoIdToEdited = todoId;
   input.value = nameTodo;
+};
 
-
-}
+const clickHandler = ({ target }) => {
+  if (target.matches(".todo-selected")) updateTodoStatus(target);
+  if (target.matches(".settings i")) showMenu(target);
+  if (target.matches(".filters span")) filterTodos(target);
+};
 
 const keyUpHandler = (event) => {
-  
   const taskName = input.value.trim();
 
   if (event.key === "Enter" && taskName) {
@@ -94,7 +99,7 @@ const keyUpHandler = (event) => {
     }
     localStorage.setItem("todoList", JSON.stringify(TODOS));
     input.value = "";
-    showTodos();
+    showTodos({ filter: "all" });
   }
 };
 
