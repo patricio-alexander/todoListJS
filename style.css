@@ -9,8 +9,10 @@ body {
   width: 100%;
   height: 100vh;
   overflow: hidden;
-  background: linear-gradient(135deg, #4ab1ff, #b5fe2d);
+  background: linear-gradient(135deg, #4ab1ff, #2db1fe);
 }
+
+
 
 .wrapper {
   max-width: 405px;
@@ -77,7 +79,6 @@ li {
 
 .clear-btn {
   border: none;
-  opacity: 0.6;
   outline: none;
   color: #fff;
   cursor: pointer;
@@ -85,10 +86,26 @@ li {
   padding: 7px 13px;
   border-radius: 4px;
   letter-spacing: 0.3px;
+  transition: transform 0.25s ease;
   background: linear-gradient(135deg, #1798fb 0%, #2d5cfe 100%);
 }
 
+.clear-btn:active{
+  transform: scale(0.93);
+}
 
+
+
+.task-box {
+  margin: 20px 5px 0 0;
+  padding: 0 20px 10px 25px;
+}
+
+
+.task-box.overflow{
+  overflow-y: auto;
+  max-height: 300px;
+}
 
 .task-box::-webkit-scrollbar {
   width: 5px;
@@ -102,9 +119,6 @@ li {
   border-radius: 25px;
 }
 
-.task-box {
-  margin: 20px 25px;
-}
 
 .task-box .task {
   list-style: none;
@@ -120,18 +134,18 @@ li {
   padding-bottom: 0;
 }
 
+
 .task label {
   display: flex;
+  align-items: flex-start;
 }
-
-.task label p.checked {
-	text-decoration: line-through;
-}
-
 .task label input {
-  /* margin-top: 7px; */
+  margin-top: 6px;
   margin-right: 12px;
+  accent-color: #3C87FF;
 }
+
+
 
 .task .settings {
   cursor: pointer;

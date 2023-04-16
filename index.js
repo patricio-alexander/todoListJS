@@ -1,6 +1,6 @@
-const dom = document;
-const input = dom.querySelector(".task-name-input input");
-const taskBox = dom.querySelector(".task-box");
+const dom = document,
+  input = dom.querySelector(".task-name-input input"),
+  taskBox = dom.querySelector(".task-box");
 let TODOS = JSON.parse(window.localStorage.getItem("todoList"));
 
 let todoIdToEdited;
@@ -37,17 +37,17 @@ const showTodos = ({ filter }) => {
       if (filter === status || filter === "all") {
         li += `
                   <li class="task">
-                  <label for="${id}">
-                      <input class="todo-selected" ${isCompleted} type="checkbox" id="${id}" />
-                      <p class="${isCompleted}">${nameTodo}</p>
-                  </label>
-                  <div class="settings">
-                      <i class="fa-solid fa-ellipsis"></i>
-                      <ul class="task-menu">
-                      <li onclick="editTodo(${id}, '${nameTodo}')"><i class="fa-solid fa-pencil"></i> Edit</li>
-                      <li onclick="deleteTodo(${id})"><i class="fa-solid fa-trash"></i> Delete</li>
-                      </ul>
-                  </div>
+                    <label for="${id}">
+                        <input class="todo-selected" ${isCompleted} type="checkbox" id="${id}" />
+                        <p class="${isCompleted}">${nameTodo}</p>
+                    </label>
+                    <div class="settings">
+                        <i class="fa-solid fa-ellipsis"></i>
+                        <ul class="task-menu">
+                        <li onclick="editTodo(${id}, '${nameTodo}')"><i class="fa-solid fa-pencil"></i> Edit</li>
+                        <li onclick="deleteTodo(${id})"><i class="fa-solid fa-trash"></i> Delete</li>
+                        </ul>
+                    </div>
                   </li>
               
               `;
@@ -55,6 +55,9 @@ const showTodos = ({ filter }) => {
     });
   }
   taskBox.innerHTML = li || `<span>You don't have any task here</span>`;
+  taskBox.offsetHeight >= 300
+    ? taskBox.classList.add("overflow")
+    : taskBox.classList.remove("overflow");
 };
 
 showTodos({ filter: "all" });
@@ -68,7 +71,7 @@ const filterTodos = (btn) => {
 const deleteTodo = (todoId) => {
   TODOS.splice(todoId, 1);
   localStorage.setItem("todoList", JSON.stringify(TODOS));
-  showTodos({filter: "all"});
+  showTodos({ filter: "all" });
 };
 
 const editTodo = (todoId, nameTodo) => {
@@ -80,8 +83,8 @@ const editTodo = (todoId, nameTodo) => {
 const removeAllTodos = () => {
   TODOS.splice(0, TODOS.length);
   localStorage.setItem("todoList", JSON.stringify(TODOS));
-  showTodos({filter: "all"});
-}
+  showTodos({ filter: "all" });
+};
 
 const clickHandler = ({ target }) => {
   if (target.matches(".todo-selected")) updateTodoStatus(target);
